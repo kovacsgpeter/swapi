@@ -1,4 +1,29 @@
+function getResidents(planet) {
+    var residentD = [];
+                    for (let resident of planet) {
+                        `
+                        name
+                        height (in meters)
+                        mass (in kg)
+                        skin color
+                        hair color
+                        eye color
+                        birth year
+                        gender
+                        `
+
+
+                        residentD.push(resident);
+
+
+
+                    }
+                    return residentD
+                        }
+
 $(document).ready(function () {
+
+
   //your code here
 
 $.ajax({
@@ -48,13 +73,13 @@ $.ajax({
 
 
                     $(tr).appendTo(tableBody);
-                    /*
-                    for (let resident of item['residents']) {
-                        var td_residents = document.createElement('td');
-                    }
-                        $.getJSON(resident, function(resident){
+                    var resident_info = getResidents(item['residents']);
 
-                        });*/
+
+
+                    $.getJSON(resident_info[1], function(response){
+                    document.getElementById("resident-info").innerHTML=response['name'];
+});
 
             }
         $(tableBody).appendTo(tbl);
