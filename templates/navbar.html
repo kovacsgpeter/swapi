@@ -1,29 +1,52 @@
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link navbarText" href="/" id="navBarText">Planet list <span class="sr-only">(current)</span></a>
+    <div class="container">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('route_main') }}">Home<span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('register') }}">Register <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+          {% if session['user_name'] %}
+        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+          {% endif %}
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">
+            {% if session['user_name'] %}
+        <img src="/static/pictures/userprofile.png" width="30" height="30">{{ session['user_name'] }}
+          {% endif %}
 
-        {% if session['user_name'] %}
-                <li><a href="{{ url_for('logout') }}" class="button">LOGOUT</a></li>
+        </a>
+      </li>
+        <li class="nav-item">
+            {% if not session['user_name'] %}
+            <form class="form-inline" action="{{ url_for('login') }}" method="POST">
+                <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"></span>
+                      </div>
+                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" id="user_name" name="user_name">
+                        <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" type="password" id="password" name="password">
+                        <button class="btn btn-outline-success" type=submit">Login</button>
+                </div>
+            </form>
             {% endif %}
-
-        {% if not session['user_name'] %}
-                <li><a href="{{ url_for('register') }}" class="button">Sign Up</a></li>
-            {% endif %}
-
-        {% if session['user_name'] %}
-                <li><img src="/static/pictures/userprofile.png" width="30" height="30">{{ session['user_name'] }}</a>
-                </li>
-                {% endif %}
-
-      {% if not session['user_name'] %}
-                    {% include "login.html" %}
-                {% endif %}
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="">Next Page</a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" href="">Prevoius Page</a>
+      </li>
     </ul>
-
-  </div>
+  </div></div>
 </nav>
 
