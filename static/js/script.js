@@ -1,4 +1,31 @@
-function getResidents(planet) {
+
+let dataHandler = {
+    keyInLocalStorage: 'swapi',
+    _data: {},
+    _initData: {
+
+        "next": "",
+        "prev": "",
+        "curr": "",
+
+    },
+    _loadData: function() {
+        this._data = JSON.parse(localStorage.getItem('swapi'));
+    },
+    _saveData: function() {
+        localStorage.setItem('swapi', JSON.stringify(this._data))
+    },
+    init: function() {
+
+        if (localStorage.length === 0) {
+
+            localStorage.setItem('swapi', JSON.stringify(this._initData))
+        }
+        this._loadData();
+
+    },
+
+    getResidents: function (planet) {
     var residentD = [];
                     for (let resident of planet) {
 
@@ -6,79 +33,99 @@ function getResidents(planet) {
 
                     }
                     return residentD
-                        }
+                        },
 
-function ajax(page) {
+    ajax: function (param1, param2, callback) {
+
 
 
     $.ajax({
+
         dataType: "json",
-        url: 'https://swapi.co/api/planets/',
+        url: param1,
 
         success: (function(response) {
-            createTable(response['results']);
-            var nextPage = response['next'];
 
 
-        })})}
-            //var len = response.length();
-            /*
-            for (item of response['results']) {
-                    var tr = document.createElement('tr');
-                        for (let i=0; i<resident_info.length; i++) {
-                            //$("#resident-row").cloneNode();
-                        $.getJSON(resident_info[i], function(response){
-                        document.getElementById("resident-name").innerHTML=response['name'];
-                        document.getElementById("resident-height").innerHTML=response['height'];
-                        document.getElementById("resident-mass").innerHTML=response['mass'];
-                        document.getElementById("resident-hair").innerHTML=response['hair_color'];
-                        document.getElementById("resident-skin").innerHTML=response['skin_color'];
-                        document.getElementById("resident-eye").innerHTML=response['eye_color'];
-                        document.getElementById("resident-birth").innerHTML=response['birth_year'];
-                        document.getElementById("resident-gender").innerHTML=response['gender'];
-                        });}
-                        var initButton = document.getElementById("residents_button");
-                        initButton.onclick=function () {
-                            var modalBlock = document.getElementById("modal-init");
-                            modalBlock.removeAttribute("hidden")*/
+            dataHandler._data.curr=param1;
 
-$(document).ready(function () {
-    ajax();
+            dataHandler._data.next=response['next'];
+
+            dataHandler._data.prev=response['previous'];
+
+            dataHandler._saveData();
 
 
-    });
 
-function appendToElement(elementToExtend, textToAppend) {
+            callback(response[param2])
+
+        })
+    })
+},
+
+
+
+    appendToElement: function (elementToExtend, textToAppend) {
     let fakeDiv = document.createElement('div');
     fakeDiv.innerHTML = textToAppend.trim();
 
     elementToExtend.appendChild(fakeDiv.firstChild);
-    return elementToExtend.lastChild;}
+    return elementToExtend.lastChild;},
 
-function createTable(planets) {
-
-
-
+    createTable: function (planets) {
 
     for (planet of planets) {
         let containerBody = document.getElementById("main-table-container");
-
         //var templatemodal = $('#handlebars-resident-modal').html();
         var templateTable = $('#handlebars-template-table').html();
-
         var contextTable = { "planet_name" : planet['name'], "diameter": planet['diameter'],
             "climate":planet['climate'], "terrain":planet['terrain'],
-            "water":planet['water'], "population":planet['population'] };
-
+            "water":planet['surface_water'], "population":planet['population'] };
         var templateScript = Handlebars.compile(templateTable);
-
         var htmlTable = templateScript(contextTable);
+        dataHandler.appendToElement(containerBody, htmlTable);
+        var resident_info = dataHandler.getResidents(planet['residents']);
+    }},
 
-        appendToElement(containerBody, htmlTable);
-        var resident_info = getResidents(planet['residents']);
-        debugger;
 
-    }}
+
+    nextPage: function (data) {
+    return data;
+},
+
+    main: function () {
+
+    if (!dataHandler._data.curr) {
+
+    this.ajax('https://swapi.co/api/planets/','results', this.createTable)
+    } else {
+
+        dataHandler.ajax(dataHandler._data.curr, 'results', dataHandler.createTable)
+
+    }
+
+    //})
+}};
+
+
+if (!dataHandler._data.length) {
+    dataHandler.init();}
+
+$(document).ready(function () {
+
+
+    dataHandler.main();
+
+    $("#nextPage").click(function () {
+
+
+        dataHandler.ajax(dataHandler._data.next, 'results', dataHandler.createTable)
+    });
+
+    });
+
+//$('#nextPage')
+
 
 
 
