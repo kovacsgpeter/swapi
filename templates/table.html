@@ -1,6 +1,5 @@
-{% raw %}
-<script id="handlebars-template-table" type="text/x-handlebars-template">
-<div id="main-table">
+
+<div class="container">
 <table id="" class="table table-dark">
     <thead>
     <tr>
@@ -12,8 +11,15 @@
     <td scope="col">population</td>
     </tr>
     </thead>
+</table>
+    <div class="card-body" id="main-table-container">
 
-<tbody id="tablebody">
+
+
+{% raw %}
+<script id="handlebars-template-table" type="text/x-handlebars-template">
+    <table id="tablebody" class="table table-light">
+<tbody>
     <tr id="{{ planet_name }}">
         <td id="name{{ planet_name }}">{{ planet_name }}</td>
         <td id="diameter{{ planet_name }}">{{ diameter }}</td>
@@ -22,15 +28,19 @@
         <td id="water{{ planet_name }}">{{ water }}</td>
         <td id="population{{ planet_name }}">{{ population }}</td>
         <td id="residents{{ planet_name }}">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="residents_button{{ planet_name }}">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="residents_button{{ planet_name }}" data-residents="{{ url }}">
             Residents
         </button>
         </td>
     </tr>
 
 </tbody>
-</table>
-</div>
+        </table>
 </script>
 {% endraw %}
+
+        </div>
+</table>
+</div>
+
  {% include "resident_modal.html" %}

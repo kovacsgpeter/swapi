@@ -1,6 +1,6 @@
 
 
-        <!--<script id="handlebars-resident-modal" type="text/x-handlebars-template">-->
+
             <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -13,18 +13,22 @@
                     <table>
                         <thead>
                         <tr>
-                            <td>resident-name</td>
-                            <td>resident-height</td>
-                            <td>resident-mass</td>
-                            <td>resident-skin</td>
-                            <td>resident-hair</td>
-                            <td>resident-eye</td>
-                            <td>resident-birth</td>
-                            <td>resident-gender</td>
+                            <td>name</td>
+                            <td>height</td>
+                            <td>mass</td>
+                            <td>skin</td>
+                            <td>hair</td>
+                            <td>eye</td>
+                            <td>birth</td>
+                            <td>gender</td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr id="resident-row">
+                            <div id="main-modal-container">
+                            {% raw %}
+                            <script id="handlebars-resident-modal" type="text/x-handlebars-template">
+
                             <td id="resident-name{{ planet_name }}">{{ name }}</td>
                             <td id="resident-height{{ planet_name }}">{{ height }}</td>
                             <td id="resident-mass{{ planet_name }}">{{ mass }}</td>
@@ -33,6 +37,10 @@
                             <td id="resident-eye{{ planet_name }}">{{ eye }}</td>
                             <td id="resident-birth{{ planet_name }}">{{ birth }}</td>
                             <td id="resident-gender{{ planet_name }}">{{ gender }}</td>
+
+                             </script>
+                             {% endraw %}
+                                </div>
                         </tr>
                         </tbody>
 
@@ -40,6 +48,6 @@
                 </div>
               </div>
             </div>
-           <!-- </script>-->
+
 
 

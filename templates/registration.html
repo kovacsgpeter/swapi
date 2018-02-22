@@ -4,7 +4,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="container">
-<form>
+<form action="{{ url_for('register')}}" method="POST">
   <div class="form-group" action="{{ url_for('register')}}" method="POST">
     <label for="exampleInputEmail1">User Name</label>
     <input type="text" class="form-control" id="register_user_name" name="register_user_name" placeholder="Enter user name">

@@ -45,7 +45,7 @@ def register():
 
             return redirect(url_for('route_main', already_used=False))
         else:
-            return redirect(url_for('register', already_used=True))
+            return render_template('registration.html', already_used=True)
     return render_template('registration.html', already_used=False)
 
 
