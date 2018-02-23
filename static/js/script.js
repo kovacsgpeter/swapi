@@ -3,7 +3,7 @@ let dataHandler = {
     keyInLocalStorage: 'swapi',
     _data: {},
     _initData: {
-
+        "residents": [],
         "next": "",
         "prev": "",
         "curr": "https://swapi.co/api/planets/",
@@ -27,12 +27,19 @@ let dataHandler = {
     },
 
     getResidents: function (planet) {
+        debugger;
     var residentD = [];
                     for (let resident of planet) {
-
-                        residentD.push(resident);
+                        $.getJSON(resident, function(response){
+                            debugger;
+                        dataHandler._data.residents.push(response['results']);})
+                        dataHandler._saveData();
 
                     }
+                    debugger;
+                    residentD = dataHandler._data.residents;
+                    dataHandler._data.residents = []
+                    dataHandler._saveData();
                     return residentD
                         },
 
@@ -76,6 +83,39 @@ let dataHandler = {
         var templateScript = Handlebars.compile(templateTable);
         var htmlTable = templateScript(contextTable);
         dataHandler.appendToElement(containerBody, htmlTable);
+        var resident_info = [];
+        for (let resident of planet.residents) {
+                        $.getJSON(resident, function(response){
+                            debugger;
+                        dataHandler._data.residents.push(response['results']);
+                        dataHandler._saveData();
+                        resident_info.push(response['results'])})
+                        debugger;
+                            }
+
+
+
+
+        debugger;
+        //resident button and resident modal generation
+        var residentsButtonId  = 'residents_button' + planet.name.toString();
+        var residentsButton = document.getElementById(residentsButtonId);
+        residentsButton.addEventListener('click', function(resident_info) {
+        debugger;
+
+
+            let modalBody = document.getElementById("main-modal-container");
+            var templateModal = $('#handlebars-resident-modal').html();
+            var contextModal = { "name" : resident_info.name, "height": resident_info.height,
+                "mass":resident_info.mass, "skin":resident_info.skin_color,
+                "hair":resident_info.hair_color, "eye":resident_info.eye_color,
+             "birth":resident_info.birth_year, "gender":resident_info.gender};
+            var templateScript = Handlebars.compile(templateModal);
+            var htmlModal = templateScript(contextModal);
+            dataHandler.appendToElement(modalBody, htmlModal);
+    })
+
+
     }},
 
 
@@ -88,17 +128,13 @@ let dataHandler = {
 
 
 },
-    modalInit: function (residentsButton) {
+    modalInit: function (residentsButton, resident_info) {
 
-
-
-        var resident_info = JSON.parse(residentsButton.getAttribute("data-residents"));
 
 
         let modalBody = document.getElementById("main-modal-container");
 
-        for (let resident of resident_info) {
-            $.getJSON(resident, function(response){
+
 
             var templateModal = $('#handlebars-resident-modal').html();
             var contextModal = { "name" : response.name, "height": response.height,
@@ -109,9 +145,22 @@ let dataHandler = {
             var htmlModal = templateScript(contextModal);
             dataHandler.appendToElement(modalBody, htmlModal);
 
-                })}
+
 
     },
+
+    residentInfoandButton: function(planet) {
+    var resident_info = dataHandler.getResidents(planet['residents']);
+    debugger;
+    var residentsButtonId  = 'residents_button' + planet.name.toString();
+    var residentsButton = document.getElementById(residentsButtonId);
+
+    residentsButton.addEventListener('click', function() {
+        debugger;
+        dataHandler.modalInit(residentsButton, resident_info)
+    })
+},
+
     nav: function() {
 
     $("#nextPage").click(function () {
@@ -149,17 +198,9 @@ $(document).ready(function () {
 
 
 
-/*
-function residentInfoandButton() {
-    var resident_info = dataHandler.getResidents(planet['residents']);
-    var residentsButtonId  = 'residents_button' + planet.name.toString();
-    var residentsButton = document.getElementById(residentsButtonId);
 
-    residentsButton.addEventListener('click', function() {
-        dataHandler.modalInit(residentsButton)
-    })
-}
-*/
+
+
 
 
 

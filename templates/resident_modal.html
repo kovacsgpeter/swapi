@@ -10,7 +10,7 @@
                       <span aria-hidden="true">×</span>
                     </button>
                   </div>
-                    <table>
+                    <table class="table table-light">
                         <thead>
                         <tr>
                             <td>name</td>
@@ -23,12 +23,15 @@
                             <td>gender</td>
                         </tr>
                         </thead>
-                        <tbody>
+                    </table>
+
                         <tr id="resident-row">
                             <div id="main-modal-container">
                             {% raw %}
+                            <table id="modalbody" class="table table-light">
+                                <tbody>
                             <script id="handlebars-resident-modal" type="text/x-handlebars-template">
-
+                                <tr id="{{ resident_name }}">
                             <td id="resident-name{{ planet_name }}">{{ name }}</td>
                             <td id="resident-height{{ planet_name }}">{{ height }}</td>
                             <td id="resident-mass{{ planet_name }}">{{ mass }}</td>
@@ -37,8 +40,11 @@
                             <td id="resident-eye{{ planet_name }}">{{ eye }}</td>
                             <td id="resident-birth{{ planet_name }}">{{ birth }}</td>
                             <td id="resident-gender{{ planet_name }}">{{ gender }}</td>
+                                </tr>
 
                              </script>
+                                </tbody>
+                            </table>
                              {% endraw %}
                                 </div>
                         </tr>
