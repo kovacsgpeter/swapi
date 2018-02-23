@@ -27,16 +27,16 @@ let dataHandler = {
     },
 
     getResidents: function (planet) {
-        debugger;
+
     var residentD = [];
                     for (let resident of planet) {
                         $.getJSON(resident, function(response){
-                            debugger;
+
                         dataHandler._data.residents.push(response['results']);})
                         dataHandler._saveData();
 
                     }
-                    debugger;
+
                     residentD = dataHandler._data.residents;
                     dataHandler._data.residents = []
                     dataHandler._saveData();
@@ -56,7 +56,7 @@ let dataHandler = {
 
             dataHandler._saveData();
 
-            callback(response[param2])
+            callback(response[param2], dataHandler.addListener)
     });
 
 
@@ -70,7 +70,7 @@ let dataHandler = {
         return elementToExtend.lastChild;},
 
 
-    createTable: function (planets) {
+    createTable: function (planets, callback) {
 
     for (planet of planets) {
 
@@ -79,41 +79,21 @@ let dataHandler = {
         var templateTable = $('#handlebars-main-table').html();
         var contextTable = { "planet_name" : planet['name'], "diameter": planet['diameter'],
             "climate":planet['climate'], "terrain":planet['terrain'],
-            "water":planet['surface_water'], "population":planet['population'], "url": JSON.stringify(planet['residents']) };
+            "water":planet['surface_water'], "population":planet['population'], "url": JSON.stringify(planet['residents']), "planet_url": planet.url };
         var templateScript = Handlebars.compile(templateTable);
         var htmlTable = templateScript(contextTable);
         dataHandler.appendToElement(containerBody, htmlTable);
-        var resident_info = [];
-        for (let resident of planet.residents) {
-                        $.getJSON(resident, function(response){
-                            debugger;
-                        dataHandler._data.residents.push(response['results']);
-                        dataHandler._saveData();
-                        resident_info.push(response['results'])})
-                        debugger;
-                            }
-
-
-
-
+        callback(planet.url, dataHandler.modalInit)
+        /*
+        var residentsButtonId  = planet.url.toString();
         debugger;
-        //resident button and resident modal generation
-        var residentsButtonId  = 'residents_button' + planet.name.toString();
         var residentsButton = document.getElementById(residentsButtonId);
-        residentsButton.addEventListener('click', function(resident_info) {
-        debugger;
+        residentsButton.addEventListener('click', function() {
+            debugger;
+            dataHandler.modalInit(planet)
 
+        })*/
 
-            let modalBody = document.getElementById("main-modal-container");
-            var templateModal = $('#handlebars-resident-modal').html();
-            var contextModal = { "name" : resident_info.name, "height": resident_info.height,
-                "mass":resident_info.mass, "skin":resident_info.skin_color,
-                "hair":resident_info.hair_color, "eye":resident_info.eye_color,
-             "birth":resident_info.birth_year, "gender":resident_info.gender};
-            var templateScript = Handlebars.compile(templateModal);
-            var htmlModal = templateScript(contextModal);
-            dataHandler.appendToElement(modalBody, htmlModal);
-    })
 
 
     }},
@@ -124,13 +104,16 @@ let dataHandler = {
 
 
 
-            this.ajax(dataHandler._data.curr, 'results', this.createTable)
+            this.ajax(dataHandler._data.curr, 'results', this.createTable);
+
 
 
 },
-    modalInit: function (residentsButton, resident_info) {
-
-
+    modalInit: function (residenturl) {
+        debugger;
+        document.getElementById("main-modal-container").innerHTML=""
+        for (let resident of JSON.parse(residenturl)) {
+                        $.getJSON(resident, function(response){
 
         let modalBody = document.getElementById("main-modal-container");
 
@@ -147,19 +130,22 @@ let dataHandler = {
 
 
 
-    },
+    })}},
 
-    residentInfoandButton: function(planet) {
-    var resident_info = dataHandler.getResidents(planet['residents']);
-    debugger;
-    var residentsButtonId  = 'residents_button' + planet.name.toString();
-    var residentsButton = document.getElementById(residentsButtonId);
 
-    residentsButton.addEventListener('click', function() {
+    addListener: function (planeturl, callback)  {
         debugger;
-        dataHandler.modalInit(residentsButton, resident_info)
-    })
-},
+
+        var residentsurl = document.getElementById(planeturl).getAttribute("data-residents");
+        debugger;
+        document.getElementById(planeturl).addEventListener('click', function() {
+            console.log(residentsurl);
+            callback(residentsurl)
+        })
+
+
+
+    },
 
     nav: function() {
 
@@ -190,8 +176,55 @@ $(document).ready(function () {
 
 
     dataHandler.renderPAge();
-    dataHandler.nav()
+    dataHandler.nav();
+
+
+
+
 });
+
+
+/*
+function residentAndModal() {
+    var resident_info = [];
+        for (let resident of planet.residents) {
+                        $.getJSON(resident, function(response){
+
+                        dataHandler._data.residents.push(response['results']);
+                        dataHandler._saveData();
+                        resident_info.push(response['results'])})
+
+                            }
+
+        //resident button and resident modal generation
+        var residentsButtonId  = 'residents_button' + planet.name.toString();
+        var residentsButton = document.getElementById(residentsButtonId);
+        residentsButton.addEventListener('click', function(resident_info) {
+
+
+
+            let modalBody = document.getElementById("main-modal-container");
+            var templateModal = $('#handlebars-resident-modal').html();
+            var contextModal = { "name" : resident_info.name, "height": resident_info.height,
+                "mass":resident_info.mass, "skin":resident_info.skin_color,
+                "hair":resident_info.hair_color, "eye":resident_info.eye_color,
+             "birth":resident_info.birth_year, "gender":resident_info.gender};
+            var templateScript = Handlebars.compile(templateModal);
+            var htmlModal = templateScript(contextModal);
+            dataHandler.appendToElement(modalBody, htmlModal);
+    })
+}
+
+function residentInfoandButton(planet) {
+    var resident_info = dataHandler.getResidents(planet['residents']);
+
+    var residentsButtonId  = 'residents_button' + planet.name.toString();
+    var residentsButton = document.getElementById(residentsButtonId);
+
+    residentsButton.addEventListener('click', function() {
+
+        dataHandler.modalInit(residentsButton, resident_info)
+    })*/
 
 
 
