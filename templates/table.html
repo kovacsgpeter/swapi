@@ -3,41 +3,43 @@
 <table id="" class="table table-dark">
     <thead>
     <tr>
-    <td scope="col">name</td>
-    <td scope="col">diameter(km)</td>
-    <td scope="col">climate</td>
-    <td scope="col">terrain</td>
-    <td scope="col">water(%)</td>
-    <td scope="col">population</td>
+    <td width="10%">name</td>
+    <td width="15%">diameter(km)</td>
+    <td width="20%">climate</td>
+    <td width="15%">terrain</td>
+    <td width="10%">water(%)</td>
+    <td width="20%">population</td>
+    <td width="10%">residents</td>
     </tr>
     </thead>
 </table>
     <div class="card-body" id="main-table-container">
+        {% raw %}
+        <script id="handlebars-main-table" type="text/x-handlebars-template">
+        <table id="tablebody" class="table table-light">
+            <tbody>
+                <tr id="{{ planet_name }}">
+                    <td width="10%" id="name{{ planet_name }}">{{ planet_name }}</td>
+                    <td width="15%" id="diameter{{ planet_name }}">{{ diameter }}</td>
+                    <td width="20%" id="climate{{ planet_name }}">{{ climate }}</td>
+                    <td width="20%" id="terrain{{ planet_name }}">{{ terrain }}</td>
+                    <td width="10%" id="water{{ planet_name }}">{{ water }}</td>
+                    <td width="15%" id="population{{ planet_name }}">{{ population }}</td>
+                    <td width="10%" id="residents{{ planet_name }}">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="residents_button{{ planet_name }}" data-residents="{{ url }}">
+                        Residents
+                    </button>
+                    </td>
+                </tr>
+
+            </tbody>
+            </table>
+        </script>
+         {% endraw %}
 
 
 
-{% raw %}
-<script id="handlebars-template-table" type="text/x-handlebars-template">
-    <table id="tablebody" class="table table-light">
-<tbody>
-    <tr id="{{ planet_name }}">
-        <td id="name{{ planet_name }}">{{ planet_name }}</td>
-        <td id="diameter{{ planet_name }}">{{ diameter }}</td>
-        <td id="climate{{ planet_name }}">{{ climate }}</td>
-        <td id="terrain{{ planet_name }}">{{ terrain }}</td>
-        <td id="water{{ planet_name }}">{{ water }}</td>
-        <td id="population{{ planet_name }}">{{ population }}</td>
-        <td id="residents{{ planet_name }}">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="residents_button{{ planet_name }}" data-residents="{{ url }}">
-            Residents
-        </button>
-        </td>
-    </tr>
 
-</tbody>
-        </table>
-</script>
-{% endraw %}
 
         </div>
 </table>
