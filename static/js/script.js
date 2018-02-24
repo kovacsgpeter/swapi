@@ -84,15 +84,7 @@ let dataHandler = {
         var htmlTable = templateScript(contextTable);
         dataHandler.appendToElement(containerBody, htmlTable);
         callback(planet.url, dataHandler.modalInit)
-        /*
-        var residentsButtonId  = planet.url.toString();
-        debugger;
-        var residentsButton = document.getElementById(residentsButtonId);
-        residentsButton.addEventListener('click', function() {
-            debugger;
-            dataHandler.modalInit(planet)
 
-        })*/
 
 
 
@@ -182,49 +174,6 @@ $(document).ready(function () {
 
 
 });
-
-
-/*
-function residentAndModal() {
-    var resident_info = [];
-        for (let resident of planet.residents) {
-                        $.getJSON(resident, function(response){
-
-                        dataHandler._data.residents.push(response['results']);
-                        dataHandler._saveData();
-                        resident_info.push(response['results'])})
-
-                            }
-
-        //resident button and resident modal generation
-        var residentsButtonId  = 'residents_button' + planet.name.toString();
-        var residentsButton = document.getElementById(residentsButtonId);
-        residentsButton.addEventListener('click', function(resident_info) {
-
-
-
-            let modalBody = document.getElementById("main-modal-container");
-            var templateModal = $('#handlebars-resident-modal').html();
-            var contextModal = { "name" : resident_info.name, "height": resident_info.height,
-                "mass":resident_info.mass, "skin":resident_info.skin_color,
-                "hair":resident_info.hair_color, "eye":resident_info.eye_color,
-             "birth":resident_info.birth_year, "gender":resident_info.gender};
-            var templateScript = Handlebars.compile(templateModal);
-            var htmlModal = templateScript(contextModal);
-            dataHandler.appendToElement(modalBody, htmlModal);
-    })
-}
-
-function residentInfoandButton(planet) {
-    var resident_info = dataHandler.getResidents(planet['residents']);
-
-    var residentsButtonId  = 'residents_button' + planet.name.toString();
-    var residentsButton = document.getElementById(residentsButtonId);
-
-    residentsButton.addEventListener('click', function() {
-
-        dataHandler.modalInit(residentsButton, resident_info)
-    })*/
 
 
 
