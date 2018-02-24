@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, request, session
+from flask import Flask, flash, render_template, url_for, redirect, request, session
 import json
 from urllib.request import Request, urlopen
 import data_manager
@@ -23,7 +23,7 @@ def get_api():
     data = webpage.read()
     encoding = webpage.info().get_content_charset('utf-8')
     response_data = json.loads(data.decode(encoding))
-    print(response_data['results'][0].values())
+
     return response_data['results'][0]
 
 @app.route("/")
@@ -40,7 +40,7 @@ def register():
             password = data_manager.hash_password(request.form['register_password'])
 
             login_name = request.form['register_user_name']
-            print("registered")
+
             data_manager.register(login_name, password)
 
             return redirect(url_for('route_main', already_used=False))
@@ -56,7 +56,8 @@ def login():
 
         data = data_manager.login(user_name)
         if not data:
-            return redirect(url_for('route_main',log=False))
+
+            return render_template('main.html',error="failed")
         user_id = data_manager.get_id_by_user_name(user_name)['user_id']
         session['user_name'] = user_name
         session['user_id'] = user_id
@@ -68,9 +69,10 @@ def login():
         else:
             session.pop('user_name', None)
             session.pop('user_id', None)
-            log = False
-            return redirect(url_for('route_main', log=False))
-    return render_template('main.html')
+            return render_template('main.html', error="failed")
+    else:
+
+        return render_template('main.html')
 
 
 @app.route('/logout')

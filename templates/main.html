@@ -1,7 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-
+{% if error == "failed" %}
+    <script>
+        alert("Wrong username or password")
+    </script>
+    {% else %}
+    <script>
+    alert(error)
+    </script>
+{% endif %}
 {% include "table.html" %}
 
 
