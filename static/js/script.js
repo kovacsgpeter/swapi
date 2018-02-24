@@ -7,6 +7,7 @@ let dataHandler = {
         "next": "",
         "prev": "",
         "curr": "https://swapi.co/api/planets/",
+        "click": 0,
 
     },
     _loadData: function() {
@@ -73,13 +74,25 @@ let dataHandler = {
     createTable: function (planets, callback) {
 
     for (planet of planets) {
-
+        var population = 0;
+        var water = 0;
+        if (planet['surface_water'] != "unknown") {
+            water = planet['surface_water']
+        } else {
+            water = 0
+        }
         let containerBody = document.getElementById("main-table-container");
-
+        if (planet['population'] != "unknown") {
+            population = planet['population']
+        } else {
+            population = 0
+        }
+         //if(planet['residents'].length!=0) {var residentLength= planet['residents'].length} else {var residentLength=false};
+        var residentLength= planet['residents'].length
         var templateTable = $('#handlebars-main-table').html();
         var contextTable = { "planet_name" : planet['name'], "diameter": planet['diameter'],
             "climate":planet['climate'], "terrain":planet['terrain'],
-            "water":planet['surface_water'], "population":planet['population'], "url": JSON.stringify(planet['residents']), "planet_url": planet.url };
+            "water":water, "population":population, "url": JSON.stringify(planet['residents']), "planet_url": planet.url, "residentButtonValue": residentLength };
         var templateScript = Handlebars.compile(templateTable);
         var htmlTable = templateScript(contextTable);
         dataHandler.appendToElement(containerBody, htmlTable);
@@ -102,7 +115,7 @@ let dataHandler = {
 
 },
     modalInit: function (residenturl) {
-        debugger;
+
         document.getElementById("main-modal-container").innerHTML=""
         for (let resident of JSON.parse(residenturl)) {
                         $.getJSON(resident, function(response){
@@ -126,14 +139,14 @@ let dataHandler = {
 
 
     addListener: function (planeturl, callback)  {
-        debugger;
 
+        if (document.getElementById(planeturl)){
         var residentsurl = document.getElementById(planeturl).getAttribute("data-residents");
-        debugger;
+
         document.getElementById(planeturl).addEventListener('click', function() {
             console.log(residentsurl);
             callback(residentsurl)
-        })
+        })}
 
 
 
@@ -142,14 +155,19 @@ let dataHandler = {
     nav: function() {
 
     $("#nextPage").click(function () {
-        let next=dataHandler._data.next;
-        dataHandler._data.curr=next;
-        dataHandler._saveData();
+        dataHandler._data.click += 1
+        if (dataHandler._data.click===7) {
+            window.alert("last page")
+        } else {
+            let next = dataHandler._data.next;
+            dataHandler._data.curr = next;
+            dataHandler._saveData();
 
 
-        });
+        }});
 
         $("#prevPage").click(function () {
+            dataHandler._data.click -= 1
             if (dataHandler._data.prev != null) {
                 let prev=dataHandler._data.prev;
                 dataHandler._data.curr=prev;

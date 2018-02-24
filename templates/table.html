@@ -20,15 +20,27 @@
             <tbody>
                 <tr id="{{ planet_name }}">
                     <td width="10%" id="name{{ planet_name }}">{{ planet_name }}</td>
-                    <td width="15%" id="diameter{{ planet_name }}">{{ diameter }}</td>
+                    <td width="15%" id="diameter{{ planet_name }}">{{ diameter }} km</td>
                     <td width="20%" id="climate{{ planet_name }}">{{ climate }}</td>
                     <td width="20%" id="terrain{{ planet_name }}">{{ terrain }}</td>
-                    <td width="10%" id="water{{ planet_name }}">{{ water }}</td>
-                    <td width="15%" id="population{{ planet_name }}">{{ population }}</td>
+                    {{#if water}}
+                    <td width="10%" id="water{{ planet_name }}">{{ water }} %</td>
+                    {{else}}
+                    <td width="10%" id="water{{ planet_name }}">unknown</td>
+                    {{/if}}
+                    {{#if population}}
+                    <td width="15%" id="population{{ planet_name }}">{{ population }} people</td>
+                    {{else}}
+                    <td width="15%" id="population{{ planet_name }}">unknown</td>
+                    {{/if}}
                     <td width="10%" id="residents{{ planet_name }}">
-                    <button type="button" class="btn btn-primary res" data-toggle="modal" data-target="#exampleModal" id="{{ planet_url }}" data-residents="{{ url }}">
-                        Residents
-                    </button>
+                    {{#if residentButtonValue}}
+
+  <button type="button" class="btn btn-primary res" data-toggle="modal" data-target="#exampleModal" id="{{ planet_url }}" data-residents="{{ url }}">
+                        {{ residentButtonValue }} Resident(s)
+                    </button>{{else}}
+                        No known Res
+                        {{/if}}
                     </td>
                 </tr>
 
