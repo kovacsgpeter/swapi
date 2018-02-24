@@ -1,0 +1,23 @@
+{% raw %}
+<script id="handlebars-resident-modal" type="text/x-handlebars-template">
+        <div class="container">
+                            <table id="modalbody" class="table table-light">
+                                <tbody>
+
+                                <tr id="{{ resident_name }}">
+                            <td id="resident-name{{ planet_name }}" width="25%">{{ name }}</td>
+                            <td id="resident-height{{ planet_name }}" width="5%">{{ height }}</td>
+                            <td id="resident-mass{{ planet_name }}" width="10%">{{ mass }}</td>
+                            <td id="resident-skin{{ planet_name }}" width="10%">{{ skin }}</td>
+                            <td id="resident-hair{{ planet_name }}" width="10%">{{ hair }}</td>
+                            <td id="resident-eye{{ planet_name }}" width="10%">{{ eye }}</td>
+                            <td id="resident-birth{{ planet_name }}" width="15%">{{ birth }}</td>
+                            <td id="resident-gender{{ planet_name }}" width="15%">{{ gender }}</td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+            </div>
+    </script>
+                             {% endraw %}
