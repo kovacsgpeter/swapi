@@ -6,7 +6,7 @@ import data_manager
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "Your_secret_string"
+
 app.secret_key = 'whatever'
 
 
@@ -78,4 +78,3 @@ def logout():
     return redirect(url_for('route_main'))
 
 
-app.run()
