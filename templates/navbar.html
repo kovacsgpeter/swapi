@@ -43,17 +43,28 @@
             </form>
             {% endif %}
         </li>
-    <li class="nav-item">
-        <!--<a class="nav-link" href="" id="prevPage">Prevoius Page</a>-->
-        <button  type="button" class="btn btn-outline-success nav" id="prevPage">Previous Page<span class="sr-only">(current)</span></button>
-      </li>
-    <li class="nav-item">
+    <li class="nav-item" id="prevButtonli">
+
+
+        <button  type="button" class="btn btn-outline-success nav" id="prevPage">Back<span class="sr-only">(current)</span></button>
+
+
+    </li>
+    <li class="nav-item" id="nextButtonli">
         <button  type="button" class="btn btn-outline-success nav" id="nextPage">Next Page</button>
 
 
       </li>
     </ul>
   </div></div>
+<div id="prevButTempl" hidden>
+
+    <button  type="button" class="btn btn-outline-success nav" id="prevPage">Back<span class="sr-only">(current)</span></button>
+</div>
+<div id="nextButTempl" hidden>
+    <button  type="button" class="btn btn-outline-success nav" id="nextPage">Next Page</button>
+
+</div>
 
 </nav>
 
