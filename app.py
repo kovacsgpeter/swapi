@@ -78,4 +78,4 @@ def logout():
     return redirect(url_for('route_main'))
 
 
-#app.run()
+app.run()

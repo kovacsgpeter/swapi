@@ -18,7 +18,7 @@ let dataHandler = {
         localStorage.setItem('swapi', JSON.stringify(this._data))
     },
     init: function() {
-
+        localStorage.clear()
         if (localStorage.length === 0) {
 
             localStorage.setItem('swapi', JSON.stringify(this._initData))
@@ -168,15 +168,15 @@ let dataHandler = {
 
     nav: function(callback) {
 
+     let containerBody = document.getElementById("main-table-container");
 
     $("#nextPage").click(function () {
-        if (dataHandler._data.click<6) {
-        dataHandler._data.click += 1
+        if (dataHandler._data.next!=null ) {
+
         let next = dataHandler._data.next;
         dataHandler._data.curr = next;
         dataHandler._saveData();
-        let containerBody = document.getElementById("main-table-container");
-        containerBody.innerHTML="";
+            containerBody.innerHTML="";
             callback()
 
 
@@ -185,21 +185,18 @@ let dataHandler = {
         } });
 
         $("#prevPage").click(function () {
-            if (dataHandler._data.click>0) {
-            dataHandler._data.click -= 1
+
+
             if (dataHandler._data.prev != null ) {
                 let prev=dataHandler._data.prev;
                 dataHandler._data.curr=prev;
                 dataHandler._saveData();
-                let containerBody = document.getElementById("main-table-container");
-        containerBody.innerHTML="";
+                containerBody.innerHTML="";
                 callback()
 
             } else {
                 window.alert("you are on the first page!");
                 return
-            }} else {
-                window.alert("you are on the first page!");
             }
         })
     }
