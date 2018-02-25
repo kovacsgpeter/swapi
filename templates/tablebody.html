@@ -1,0 +1,34 @@
+{% raw %}
+        <script id="handlebars-main-table" type="text/x-handlebars-template">
+        <table id="tablebody" class="table table-light table-bordered">
+            <tbody>
+                <tr id="{{ planet_name }}">
+                    <td style="width:10ch" id="name{{ planet_name }}">{{ planet_name }}</td>
+                    <td style="width:12ch" id="diameter{{ planet_name }}">{{ diameter }} km</td>
+                    <td style="width:20ch" id="climate{{ planet_name }}">{{ climate }}</td>
+                    <td style="width:22ch" id="terrain{{ planet_name }}">{{ terrain }}</td>
+                    {{#if water}}
+                    <td style="width:8ch" id="water{{ planet_name }}">{{ water }} %</td>
+                    {{else}}
+                    <td style="width:8ch" id="water{{ planet_name }}">unknown</td>
+                    {{/if}}
+                    {{#if population}}
+                    <td style="width:18ch" id="population{{ planet_name }}">{{ population }} people</td>
+                    {{else}}
+                    <td style="width:18ch" id="population{{ planet_name }}">unknown</td>
+                    {{/if}}
+                    <td style="width:15ch" id="residents{{ planet_name }}">
+                    {{#if residentButtonValue}}
+
+  <button  type="button" class="btn btn-primary btn-sm res" data-toggle="modal" data-target="#exampleModal" id="{{ planet_url }}" data-residents="{{ url }}">
+                        {{ residentButtonValue }} Resident(s)
+                    </button>{{else}}
+                        No known residents
+                        {{/if}}
+                    </td>
+                </tr>
+
+            </tbody>
+            </table>
+        </script>
+         {% endraw %}

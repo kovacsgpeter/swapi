@@ -4,7 +4,7 @@ import psycopg2.extras
 from random import randint
 import urllib.parse
 
-'''
+
 def get_connection_string():
     urllib.parse.uses_netloc.append('postgres')
     url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
@@ -38,11 +38,12 @@ def get_connection_string():
     else:
         raise KeyError('Some necessary environment variable(s) are not defined')
 
-
+'''
 def open_database():
     try:
-        connection_string = get_connection_string()
-        connection = psycopg2.connect(connection_string)
+        #connection_string = get_connection_string()
+        #connection = psycopg2.connect(connection_string)
+        connection = get_connection_string()
         connection.autocommit = False
     except psycopg2.DatabaseError as exception:
         print('Database connection problem')
