@@ -81,21 +81,27 @@ let dataHandler = {
         } else {
             water = 0
         }
+
         let containerBody = document.getElementById("main-table-container");
+
         if (planet['population'] != "unknown") {
-            population = planet['population']
+            population = dataHandler.commaSeparatedNumbers(planet['population'])
         } else {
             population = 0
         }
+
+        var diameter=dataHandler.commaSeparatedNumbers(planet['diameter'])
          //if(planet['residents'].length!=0) {var residentLength= planet['residents'].length} else {var residentLength=false};
         var residentLength= planet['residents'].length
         var templateTable = $('#handlebars-main-table').html();
-        var contextTable = { "planet_name" : planet['name'], "diameter": planet['diameter'],
+        //population = dataHandler.commaSeparatedNumbers(population)
+        var contextTable = { "planet_name" : planet['name'], "diameter": diameter,
             "climate":planet['climate'], "terrain":planet['terrain'],
             "water":water, "population":population, "url": JSON.stringify(planet['residents']), "planet_url": planet.url, "residentButtonValue": residentLength };
         var templateScript = Handlebars.compile(templateTable);
         var htmlTable = templateScript(contextTable);
         dataHandler.appendToElement(containerBody, htmlTable);
+
         callback(planet.url, dataHandler.modalInit)
 
 
@@ -103,21 +109,27 @@ let dataHandler = {
 
     }},
 
+    commaSeparatedNumbers: function(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+
 
 
     renderPAge: function () {
 
 
 
-            this.ajax(dataHandler._data.curr, 'results', this.createTable);
+            dataHandler.ajax(dataHandler._data.curr, 'results', dataHandler.createTable);
 
 
 
 },
     modalInit: function (residenturl) {
 
+
         document.getElementById("main-modal-container").innerHTML=""
         for (let resident of JSON.parse(residenturl)) {
+
                         $.getJSON(resident, function(response){
 
         let modalBody = document.getElementById("main-modal-container");
@@ -131,6 +143,7 @@ let dataHandler = {
              "birth":response.birth_year, "gender":response.gender};
             var templateScript = Handlebars.compile(templateModal);
             var htmlModal = templateScript(contextModal);
+
             dataHandler.appendToElement(modalBody, htmlModal);
 
 
@@ -144,6 +157,7 @@ let dataHandler = {
         var residentsurl = document.getElementById(planeturl).getAttribute("data-residents");
 
         document.getElementById(planeturl).addEventListener('click', function() {
+
             console.log(residentsurl);
             callback(residentsurl)
         })}
@@ -152,30 +166,40 @@ let dataHandler = {
 
     },
 
-    nav: function() {
+    nav: function(callback) {
+
 
     $("#nextPage").click(function () {
+        if (dataHandler._data.click<6) {
         dataHandler._data.click += 1
-        if (dataHandler._data.click===7) {
-            window.alert("last page")
-        } else {
-            let next = dataHandler._data.next;
-            dataHandler._data.curr = next;
-            dataHandler._saveData();
+        let next = dataHandler._data.next;
+        dataHandler._data.curr = next;
+        dataHandler._saveData();
+        let containerBody = document.getElementById("main-table-container");
+        containerBody.innerHTML="";
+            callback()
 
 
-        }});
+        }else {
+           window.alert("last page")
+        } });
 
         $("#prevPage").click(function () {
+            if (dataHandler._data.click>0) {
             dataHandler._data.click -= 1
-            if (dataHandler._data.prev != null) {
+            if (dataHandler._data.prev != null ) {
                 let prev=dataHandler._data.prev;
                 dataHandler._data.curr=prev;
                 dataHandler._saveData();
+                let containerBody = document.getElementById("main-table-container");
+        containerBody.innerHTML="";
+                callback()
 
             } else {
                 window.alert("you are on the first page!");
                 return
+            }} else {
+                window.alert("you are on the first page!");
             }
         })
     }
@@ -186,7 +210,7 @@ $(document).ready(function () {
 
 
     dataHandler.renderPAge();
-    dataHandler.nav();
+    dataHandler.nav(dataHandler.renderPAge);
 
 
 

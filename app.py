@@ -25,7 +25,7 @@ def get_api():
 
 @app.route("/")
 def route_main():
-
+    print('load')
     return render_template("main.html")
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -78,4 +78,4 @@ def logout():
     return redirect(url_for('route_main'))
 
 
-#app.run()
+app.run()
