@@ -52,6 +52,15 @@
                         No known residents
                         {{/if}}
                     </td>
+                    <td>
+                        {% endraw %}
+                        {% if session['user_name'] %}
+                        <button  type="button" class="btn btn-primary btn-sm vote" data-toggle="modal" data-target="#Modal" id="" data-residents="">
+                        Vote
+                    </button>
+                        {% endif %}
+                    {% raw %}
+                    </td>
                 </tr>
 
             </tbody>
