@@ -205,10 +205,10 @@ let dataHandler = {
     }
 };
 
-dataHandler.init();
+
 $(document).ready(function () {
 
-
+    dataHandler.init();
     dataHandler.renderPAge();
     dataHandler.nav(dataHandler.renderPAge);
 
